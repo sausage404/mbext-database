@@ -1,10 +1,10 @@
 {
-  "name": "@mcbedrock/database",
-  "version": "1.0.1",
+  "name": "@mbext/database",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE",
   "author": "sausage404",
-  "description": "This is database for minecraft bedrock script beta api.",
+  "description": "This is database for minecraft bedrock deverlopment",
   "type": "module",
   "devDependencies": {
     "@minecraft/server": "^1.15.0-beta.1.21.30-stable",
@@ -12,6 +12,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sausage404/mclab.database.git"
+    "url": "https://github.com/sausage404/mbext-database.git"
   }
 }

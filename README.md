@@ -1,6 +1,8 @@
-# Database Management for MCBE
+# Database Management for Minecraft Bedrock deverlopment
 
-@mcbedrock/database is a lightweight and flexible database solution for Minecraft Bedrock Edition (MCBE) add-ons. It provides a simple API for creating, reading, updating, and deleting data within your MCBE scripts.
+[![npm version](https://badge.fury.io/js/%40mbext%2Fdatabase.svg)](https://www.npmjs.com/package/@mbext/database)
+
+@mbext/database is a lightweight and flexible database solution for Minecraft Bedrock Edition (MCBE) add-ons. It provides a simple API for creating, reading, updating, and deleting data within your MCBE scripts.
 
 ## Features
 
@@ -14,7 +16,7 @@
 
 ## Installation
 
-To install @mcbedrock/database in your MCBE add-on project, you have two options:
+To install @mbext/database in your MCBE add-on project, you have two options:
 
 ### Option 1: Install via npm
 
@@ -22,7 +24,7 @@ To install @mcbedrock/database in your MCBE add-on project, you have two options
 2. Run the following command to install the package:
 
 ```bash
-npm i @mcbedrock/database
+npm i @mbext/database
 ```
 
 3. Use the module with [ESBuild](https://jaylydev.github.io/posts/bundle-minecraft-scripts-esbuild/) or [Webpack](https://jaylydev.github.io/posts/scripts-bundle-minecraft/)
@@ -33,7 +35,7 @@ npm i @mcbedrock/database
 2. Run the following command to clone the repository:
 
 ```bash
-git clone https://github.com/sausage404/@mcbedrock/database.git
+git clone https://github.com/sausage404/mbext-database.git
 ```
 
 3. Copy the `index.ts` and `index.d.ts` or `index.js` file from the cloned repository into your project's scripts folder.
@@ -46,7 +48,7 @@ Create a Database Instance With TypeScript
 
 ```typescript
 import * as mc from "@minecraft/server";
-import Database, { CollectionValidator } from "@mcbedrock/database";
+import Database, { CollectionValidator } from "@mbext/database";
 
 // Define the structure of your data
 interface User {
