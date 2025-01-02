@@ -42,7 +42,7 @@ git clone https://github.com/sausage404/mbext-database.git
 
 ## Basic Usage
 
-Let's walk through how to use the MCBE Database in your Minecraft Bedrock Edition scripts. We'll cover the essential operations with practical examples.
+Let's walk through how to use the database in your minecraft bedrock. We'll cover the essential operations with practical examples.
 
 Create a Database Instance With TypeScript
 
