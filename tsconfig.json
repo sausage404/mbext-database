@@ -3,8 +3,6 @@
         "target": "ESNext",
         "moduleResolution": "node",
         "module": "ESNext",
-        "outDir": ".",
-        "rootDir": ".",
         "sourceMap": false
     },
     "exclude": [

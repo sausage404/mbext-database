@@ -11,15 +11,17 @@ export type FilterCondition<T> = {
     value: any;
 }
 
-export default class Database<T> extends Map<string, T> {
+export default class Database<T> {
+    private data: Map<string, T>;
+
     constructor(
         private collectionName: string,
         private storageType: StorageType,
         private collectionValidators?: CollectionValidator<T>
     ) {
-        super();
         if (collectionName.length < 1 || collectionName.length > 16)
             throw new Error("Collection name must be between 1 and 16 characters");
+        this.data = new Map<string, T>();
         this.initialize();
     }
 
@@ -27,7 +29,14 @@ export default class Database<T> extends Map<string, T> {
         try {
             const storedData = this.storageType.getDynamicProperty(this.collectionName) as string;
             if (storedData) {
-                JSON.parse(storedData).forEach(([id, data]: [string, T]) => super.set(id, data));
+                const entries = JSON.parse(storedData);
+                for (const [id, data] of entries) {
+                    if (this.validate(data)) {
+                        this.data.set(id, data);
+                    } else {
+                        console.error(`Invalid data found during initialization for id: ${id}`);
+                    }
+                }
             }
         } catch (error) {
             console.error("Error reading from storage:", error);
@@ -36,17 +45,26 @@ export default class Database<T> extends Map<string, T> {
         }
     }
 
-    private saveChanges() {
+    private saveChanges(): boolean {
         try {
-            const entries = Array.from(this.entries());
+            const entries = Array.from(this.data.entries());
             this.storageType.setDynamicProperty(this.collectionName, JSON.stringify(entries));
+            return true;
         } catch (error) {
             console.error("Error saving to storage:", error);
+            return false;
         }
     }
 
     private generateId(): string {
-        return Array.from({ length: 16 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+        let id: string;
+        do {
+            id = Array.from(
+                { length: 16 },
+                () => Math.floor(Math.random() * 16).toString(16)
+            ).join('');
+        } while (this.data.has(id));
+        return id;
     }
 
     private validate(data: T): boolean {
@@ -80,40 +98,39 @@ export default class Database<T> extends Map<string, T> {
         }
     }
 
-    public clear(): void {
-        super.clear();
-        this.saveChanges();
-    }
-
-    public set(id: string, value: T): this {
-        if (!this.validate(value)) {
-            throw new Error("Invalid data format");
-        }
-        super.set(id, value);
-        this.saveChanges();
-        return this;
+    public clear(): boolean {
+        this.data.clear();
+        return this.saveChanges();
     }
 
     public delete(id: string): boolean {
-        const result = super.delete(id);
-        if (result) {
-            this.saveChanges();
+        if (!this.data.has(id)) return false;
+
+        this.data.delete(id);
+        if (!this.saveChanges()) {
+            return false;
         }
-        return result;
+        return true;
     }
 
-    public create(data: T): string {
+    public create(data: T): string | null {
         if (!this.validate(data)) {
             throw new Error("Invalid data format");
         }
 
         const id = this.generateId();
-        this.set(id, data);
+        this.data.set(id, data);
+
+        if (!this.saveChanges()) {
+            this.data.delete(id);
+            return null;
+        }
+
         return id;
     }
 
     public update(id: string, data: Partial<T>): boolean {
-        const existingData = this.get(id);
+        const existingData = this.data.get(id);
         if (!existingData) return false;
 
         const updatedData = { ...existingData, ...data } as T;
@@ -121,7 +138,14 @@ export default class Database<T> extends Map<string, T> {
             throw new Error("Invalid data format");
         }
 
-        this.set(id, updatedData);
+        const originalData = this.data.get(id);
+        this.data.set(id, updatedData);
+
+        if (!this.saveChanges() && originalData) {
+            this.data.set(id, originalData);
+            return false;
+        }
+
         return true;
     }
 
@@ -129,9 +153,14 @@ export default class Database<T> extends Map<string, T> {
         return this.findMany(predicate)[0];
     }
 
+    public findById(id: string): { id: string; data: T } | undefined {
+        const data = this.data.get(id);
+        return data ? { id, data } : undefined;
+    }
+
     public findLike(term: string, fields?: (keyof T)[]): Array<{ id: string; data: T }> {
         const lowerCaseTerm = term.toLowerCase();
-        return Array.from(this.entries())
+        return Array.from(this.data.entries())
             .filter(([_, data]) => {
                 const searchFields = fields || Object.keys(data);
                 return searchFields.some(field => {
@@ -147,16 +176,16 @@ export default class Database<T> extends Map<string, T> {
 
     public findMany(predicate?: (value: T) => boolean): Array<{ id: string; data: T }> {
         if (predicate) {
-            return Array.from(this.entries())
+            return Array.from(this.data.entries())
                 .filter(([_, data]) => predicate(data))
                 .map(([id, data]) => ({ id, data }));
         } else {
-            return Array.from(this.entries())
+            return Array.from(this.data.entries())
                 .map(([id, data]) => ({ id, data }));
         }
     }
 
-    public createMany(items: T[]): string[] {
+    public createMany(items: T[]): Array<string | null> {
         return items.map(item => this.create(item));
     }
 
@@ -169,7 +198,7 @@ export default class Database<T> extends Map<string, T> {
     }
 
     public query(conditions: FilterCondition<T>[], sort?: SortOptions<T>, limit?: number): Array<{ id: string; data: T }> {
-        let results = Array.from(this.entries())
+        let results = Array.from(this.data.entries())
             .filter(([_, data]) =>
                 conditions.every(condition => this.evaluateCondition(data, condition))
             );
@@ -196,22 +225,40 @@ export default class Database<T> extends Map<string, T> {
         return results.map(([id, data]) => ({ id, data }));
     }
 
+    public get size(): number {
+        return this.data.size;
+    }
+
     public count(condition?: FilterCondition<T>): number {
         if (!condition) return this.size;
 
-        return Array.from(this.values())
+        return Array.from(this.data.values())
             .filter(data => this.evaluateCondition(data, condition))
             .length;
     }
 
     public export(): string {
-        return JSON.stringify(Array.from(this.entries()));
+        return JSON.stringify(Array.from(this.data.entries()));
     }
 
-    public import(data: string): void {
-        this.clear();
-        JSON.parse(data).forEach(([id, value]: [string, T]) => {
-            this.set(id, value);
-        });
+    public import(data: string): boolean {
+        try {
+            const entries = JSON.parse(data);
+            const validEntries = entries.filter(([_, value]: [string, T]) => this.validate(value));
+
+            if (validEntries.length !== entries.length) {
+                console.warn("Some entries were invalid and were skipped during import");
+            }
+
+            this.clear();
+            for (const [id, value] of validEntries) {
+                this.data.set(id, value);
+            }
+
+            return this.saveChanges();
+        } catch (error) {
+            console.error("Error during import:", error);
+            return false;
+        }
     }
 }

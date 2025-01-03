@@ -1,4 +1,4 @@
 # TypeScript files
-index.ts
+src/
 tsconfig.json
 .github/
