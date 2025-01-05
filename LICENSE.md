@@ -1,4 +1,4 @@
-# Custom License for @mcbedrock/database
+# Custom License
 
 Copyright (c) 2024 sausage404
 
@@ -24,4 +24,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 By using the Software, you agree to abide by the terms of this license.
 
-For any questions regarding this license or to request permission for modifications, please contact: parinya24personal@gmail.com
+For any questions regarding this license or to request permission for modifications, please contact: parinya24dev@gmail.com
