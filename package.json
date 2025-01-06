@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/bundle.js",
   "types": "types/index.d.ts",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "GNU-3.0",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch"
