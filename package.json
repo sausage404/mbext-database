@@ -1,6 +1,6 @@
 {
   "name": "@mbext/database",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "dist/bundle.js",
   "types": "types/index.d.ts",
   "license": "GPL-3.0-only-3.0",
