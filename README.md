@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40mbext%2Fdatabase.svg)](https://www.npmjs.com/package/@mbext/database)
 
-@mbext/database is a lightweight and flexible database solution for Minecraft Bedrock Edition (MCBE) add-ons. It provides a simple API for creating, reading, updating, and deleting data within your MCBE scripts.
+`@mbext/database` is a lightweight and flexible database solution for Minecraft Bedrock Edition (MCBE) add-ons. It provides a simple API for creating, reading, updating, and deleting data within your MCBE scripts.
 
 ## Features
 
@@ -16,7 +16,7 @@
 
 ## Installation
 
-To install @mbext/database in your minecraft add-on project, you have two options:
+To install `@mbext/database` in your minecraft add-on project, you have two options:
 
 ### Option 1: Use the package manager
 
