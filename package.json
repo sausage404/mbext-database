@@ -2,7 +2,7 @@
   "name": "@mbext/database",
   "version": "1.0.0",
   "main": "dist/bundle.js",
-  "types": "types/bundle.d.ts",
+  "types": "types/index.d.ts",
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "build": "webpack --mode production",

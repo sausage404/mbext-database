@@ -1,4 +1,4 @@
-# Database Management for Minecraft Bedrock deverlopment
+# Database Management for Minecraft Bedrock Deverlopment
 
 [![npm version](https://badge.fury.io/js/%40mbext%2Fdatabase.svg)](https://www.npmjs.com/package/@mbext/database)
 
@@ -16,9 +16,20 @@
 
 ## Installation
 
-To install @mbext/database in your MCBE add-on project, you have two options:
+To install @mbext/database in your minecraft add-on project, you have two options:
 
-### Option 1: Install via npm
+### Option 1: Use the package manager
+
+1. Open a terminal and navigate to your project's root directory.
+2. Run the following command to install the package:
+
+```bash
+npx @mbext/project init
+```
+
+1. Choose dependencies addons in prompt `@mbext/database`
+
+### Option 2: Install via npm
 
 1. Open a terminal and navigate to your project's root directory.
 2. Run the following command to install the package:
@@ -29,7 +40,7 @@ npm i @mbext/database
 
 3. Use the module with [ESBuild](https://jaylydev.github.io/posts/bundle-minecraft-scripts-esbuild/) or [Webpack](https://jaylydev.github.io/posts/scripts-bundle-minecraft/)
 
-### Option 2: Clone the repository
+### Option 3: Clone the repository
 
 1. Open a terminal and navigate to your project's root directory.
 2. Run the following command to clone the repository:
@@ -87,16 +98,7 @@ const users = database.findMany().forEach((user) => {
 
 ## License
 
-This project is licensed under a custom license. The key points of this license are:
-
-1. You may use this software for both personal and commercial purposes.
-2. Redistribution is allowed, but you must include this license and the copyright notice.
-3. Modification or creation of derivative works is prohibited without explicit permission from the copyright holder.
-4. You may not sublicense, sell, lease, or rent this software.
-5. Attribution to the original author (sausage404) is required in projects or products using this software.
-6. Reverse engineering is prohibited unless explicitly authorized by law.
-
-For the full license text, please see the [LICENSE](./LICENSE) file in this repository.
+@mbext/command-handler is released under the [GNU General Public License v3](https://github.com/sausage404/mbext-command-handler/blob/main/LICENSE).
 
 ## Issues
 
