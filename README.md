@@ -1,4 +1,4 @@
-# Database Management for Minecraft Bedrock Deverlopment
+# Database Management for Minecraft Bedrock Development
 
 [![npm version](https://badge.fury.io/js/%40mbext%2Fdatabase.svg)](https://www.npmjs.com/package/@mbext/database)
 
