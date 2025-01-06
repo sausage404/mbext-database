@@ -98,7 +98,7 @@ const users = database.findMany().forEach((user) => {
 
 ## License
 
-@mbext/command-handler is released under the [GNU General Public License v3](https://github.com/sausage404/mbext-command-handler/blob/main/LICENSE).
+@mbext/database is released under the [GNU General Public License v3](https://github.com/sausage404/mbext-database/blob/main/LICENSE).
 
 ## Issues
 
